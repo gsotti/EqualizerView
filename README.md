@@ -1,4 +1,4 @@
-Mini Equalizer Library for Android 
+Simple Equalizer Library for Android 
 ==================================
 
  This Android Library project is created to let you use a animated equalizer inside your music related apps. Origingal version
