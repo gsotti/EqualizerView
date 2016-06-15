@@ -14,15 +14,16 @@ How to use it
 ## Layout
 
 ````xml
-  <eu.gsottbauer.equalizerview.EqualizerView
-        android:id="@+id/equalizer"
-        android:layout_width="match_parent"
-        android:layout_height="50dp"
-        android:layout_above="@+id/play_button"
-        android:layout_margin="30dp"
-        app:barColor="#ff00ff"
-        app:barAnimationDuration="3000"
-        app:barCount="40"/>
+ <eu.gsottbauer.equalizerview.EqualizerView
+         android:id="@+id/equalizer"
+         android:layout_width="match_parent"
+         android:layout_height="50dp"
+         android:layout_above="@+id/play_button"
+         android:layout_margin="30dp"
+         app:barColor="@color/colorAccent"
+         app:barCount="40"
+         app:barAnimationDuration="2000"
+         app:animationValueCount="40"/>
 ````
 
 ### Attributes
@@ -30,7 +31,8 @@ How to use it
 There is some custom attributes you can adjust from the xml:
  - barColor : the equalizer bars color (default is black)
  - barAnimationDuration : (millisecs) the animation follows a pattern and the number of loops is infinite. To set the duration of each loop, use this attribute.
- - barCount :  count of the bars
+ - barCount :  number of the bars
+ - animationValueCount : number of values which are used for animation
  
 ## Activity
 
