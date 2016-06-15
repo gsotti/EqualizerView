@@ -1,15 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:paddingBottom="@dimen/activity_vertical_margin"
-    android:paddingLeft="@dimen/activity_horizontal_margin"
-    android:paddingRight="@dimen/activity_horizontal_margin"
-    android:paddingTop="@dimen/activity_vertical_margin"
-    tools:context="eu.gsottbauer.equalizerviewsample.MainActivity">
-
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
 
 
     <eu.gsottbauer.equalizerview.EqualizerView
@@ -18,18 +11,133 @@
         android:layout_height="50dp"
         android:layout_above="@+id/play_button"
         android:layout_margin="30dp"
-        app:barColor="#ff00ff"
-        app:barAnimationDuration="3000"
-        app:barCount="40"/>
+        app:barColor="@color/colorAccent" />
+
+    <!--<eu.gsottbauer.equalizerview.EqualizerView
+        android:id="@+id/equalizer"
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:layout_above="@+id/play_button"
+        android:layout_margin="30dp"
+        app:barColor="@color/colorAccent"
+        app:barCount="40"
+        app:barAnimationDuration="2000"
+        app:animationValueCount="40"/>-->
+
 
     <Button
+        android:id="@+id/play_button"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="@string/start"
-        android:id="@+id/play_button"
-        android:layout_centerVertical="true"
         android:layout_centerHorizontal="true"
-        android:onClick="playPause"/>
+        android:layout_centerVertical="true"
+        android:onClick="playPause"
+        android:text="@string/start" />
+
+    <SeekBar
+        android:id="@+id/barsSeekBar"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignEnd="@+id/equalizer"
+        android:layout_alignLeft="@+id/equalizer"
+        android:layout_alignRight="@+id/equalizer"
+        android:layout_alignStart="@+id/equalizer"
+        android:layout_below="@+id/textView"
+        android:max="100"
+        android:progress="40" />
+
+    <TextView
+        android:id="@+id/textView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignLeft="@+id/barsSeekBar"
+        android:layout_alignStart="@+id/barsSeekBar"
+        android:layout_below="@+id/play_button"
+        android:layout_marginTop="20dp"
+        android:text="Bar Count: "
+        android:textAppearance="?android:attr/textAppearanceSmall" />
+
+    <TextView
+        android:id="@+id/bar_count"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignTop="@+id/textView"
+        android:layout_marginLeft="5dp"
+        android:layout_toEndOf="@+id/textView"
+        android:layout_toRightOf="@+id/textView"
+        android:text="1"
+        android:textAppearance="?android:attr/textAppearanceSmall" />
+
+
+    <SeekBar
+        android:id="@+id/valuesSeekBar"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignEnd="@+id/barsSeekBar"
+        android:layout_alignLeft="@+id/textView1"
+        android:layout_alignRight="@+id/barsSeekBar"
+        android:layout_alignStart="@+id/textView1"
+        android:layout_below="@+id/textView1"
+        android:max="100"
+        android:progress="20" />
+
+    <TextView
+        android:id="@+id/textView1"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignLeft="@+id/barsSeekBar"
+
+        android:layout_alignStart="@+id/barsSeekBar"
+        android:layout_below="@+id/barsSeekBar"
+        android:layout_marginTop="20dp"
+        android:text="Value Count: "
+        android:textAppearance="?android:attr/textAppearanceSmall" />
+
+    <TextView
+        android:id="@+id/values_count"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignTop="@+id/textView1"
+        android:layout_marginLeft="5dp"
+        android:layout_toEndOf="@+id/textView1"
+        android:layout_toRightOf="@+id/textView1"
+        android:text="1"
+        android:textAppearance="?android:attr/textAppearanceSmall" />
+
+    <TextView
+        android:id="@+id/textView2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignLeft="@+id/valuesSeekBar"
+        android:layout_alignStart="@+id/valuesSeekBar"
+        android:layout_below="@+id/valuesSeekBar"
+        android:layout_marginTop="20dp"
+        android:text="Animation Duration: "
+        android:textAppearance="?android:attr/textAppearanceSmall" />
+
+    <SeekBar
+        android:id="@+id/animationDurationSeekBar"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignEnd="@+id/valuesSeekBar"
+        android:layout_alignLeft="@+id/textView2"
+        android:layout_alignRight="@+id/valuesSeekBar"
+        android:layout_alignStart="@+id/textView2"
+        android:layout_below="@+id/textView2"
+        android:max="100"
+        android:progress="15" />
+
+
+    <TextView
+        android:id="@+id/animation_duration"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignTop="@+id/textView2"
+        android:layout_marginLeft="5dp"
+        android:layout_toEndOf="@+id/textView2"
+        android:layout_toRightOf="@+id/textView2"
+        android:text="2000"
+        android:textAppearance="?android:attr/textAppearanceSmall" />
 
 
 </RelativeLayout>

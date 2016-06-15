@@ -5,6 +5,7 @@
         <attr name="barColor" format="color" />
         <attr name="barAnimationDuration" format="integer" />
         <attr name="barCount" format="integer" />
+        <attr name="animationValueCount" format="integer" />
     </declare-styleable>
 
 </resources>

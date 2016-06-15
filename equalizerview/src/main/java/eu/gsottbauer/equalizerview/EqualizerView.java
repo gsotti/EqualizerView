@@ -25,59 +25,62 @@ import java.util.Random;
  */
 public class EqualizerView extends LinearLayout {
 
+
+    public final static int DEFAULT_DURATION = 3000;
+    public final static int DEFAULT_BAR_COUNT = 30;
+    public final static int DEFAULT_ANIMATION_COUNT = 30;
+    public final static int DEFAULT_COLOR = Color.DKGRAY;
+
     ArrayList<View> mBars = new ArrayList<>();
     ArrayList<Animator> mAnimators = new ArrayList<>();
 
-    AnimatorSet playingSet;
-    AnimatorSet stopSet;
+    AnimatorSet mPlayingSet;
+    AnimatorSet mStopSet;
     Boolean isAnimating = false;
 
-    int foregroundColor = Color.WHITE;
-    int duration = 3000;
-    int barcount = 3;
-
+    int mForegroundColor = DEFAULT_COLOR;
+    int mAnimationDuration = DEFAULT_DURATION;
+    int mBarCount = DEFAULT_BAR_COUNT;
+    int mAnimatorValueCount = DEFAULT_ANIMATION_COUNT;
 
     public EqualizerView(Context context) {
         super(context);
-        initViews();
+        initView();
     }
 
     public EqualizerView(Context context, AttributeSet attrs) {
         super(context, attrs);
         setAttrs(context, attrs);
-        initViews();
+        initView();
     }
 
     public EqualizerView(Context context, AttributeSet attrs, int defStyle) {
         super(context, attrs, defStyle);
         setAttrs(context, attrs);
-        initViews();
+        initView();
     }
 
     private void setAttrs(Context context, AttributeSet attrs) {
-        TypedArray a = context.getTheme().obtainStyledAttributes(
-                attrs,
-                R.styleable.EqualizerView,
-                0, 0);
+
+        TypedArray a = context.getTheme().obtainStyledAttributes(attrs, R.styleable.EqualizerView, 0, 0);
 
         try {
 
-            foregroundColor = a.getInt(R.styleable.EqualizerView_barColor, Color.WHITE);
-            duration = a.getInt(R.styleable.EqualizerView_barAnimationDuration, 3000);
-            barcount = a.getInt(R.styleable.EqualizerView_barCount, 3);
+            mForegroundColor = a.getInt(R.styleable.EqualizerView_barColor, DEFAULT_COLOR);
+            mAnimationDuration = a.getInt(R.styleable.EqualizerView_barAnimationDuration, DEFAULT_DURATION);
+            mBarCount = a.getInt(R.styleable.EqualizerView_barCount, DEFAULT_BAR_COUNT);
+            mAnimatorValueCount = a.getInt(R.styleable.EqualizerView_animationValueCount, DEFAULT_ANIMATION_COUNT);
 
         } finally {
             a.recycle();
         }
     }
 
-    private void initViews() {
+    private void initView() {
 
         setOrientation(LinearLayout.HORIZONTAL);
-        removeAllViews();
-        mBars.clear();
 
-        for (int i = 0; i < barcount; i++) {
+        for (int i = 0; i < mBarCount; i++) {
 
             View view = new View(getContext());
 
@@ -86,12 +89,20 @@ public class EqualizerView extends LinearLayout {
             params.setMargins(1, 1, 1, 1);
             view.setLayoutParams(params);
 
-            view.setBackgroundColor(foregroundColor);
+            view.setBackgroundColor(mForegroundColor);
             addView(view);
 
             setPivots(view);
             mBars.add(view);
         }
+    }
+
+    private void resetView() {
+        removeAllViews();
+        mBars.clear();
+        mAnimators.clear();
+        mPlayingSet = null;
+        mStopSet = null;
     }
 
 
@@ -110,37 +121,38 @@ public class EqualizerView extends LinearLayout {
     }
 
     public void animateBars() {
+
         isAnimating = true;
 
-        if (playingSet == null) {
+        if (mPlayingSet == null) {
 
-            for (int i = 0; i < barcount; i++) {
-
+            for (int i = 0; i < mBarCount; i++) {
 
                 Random rand = new Random();
-                ObjectAnimator scaleYbar = ObjectAnimator.ofFloat(mBars.get(i), "scaleY", rand.nextFloat(), rand.nextFloat(), rand.nextFloat(), rand.nextFloat(), rand.nextFloat(), rand.nextFloat(),
-                                                                           rand.nextFloat(), rand.nextFloat(), rand.nextFloat(), rand.nextFloat(), rand.nextFloat(), rand.nextFloat(),
-                                                                           rand.nextFloat(), rand.nextFloat(), rand.nextFloat(), rand.nextFloat(), rand.nextFloat(), rand.nextFloat(),
-                                                                           rand.nextFloat(), rand.nextFloat(), rand.nextFloat(), rand.nextFloat(), rand.nextFloat(), rand.nextFloat(), rand.nextFloat(), rand.nextFloat());
+                float[] values = new float[mAnimatorValueCount];
 
+                for (int j = 0; j < mAnimatorValueCount; j++) {
+                    values[j] = rand.nextFloat();
+                }
+
+                ObjectAnimator scaleYbar = ObjectAnimator.ofFloat(mBars.get(i), "scaleY", values);
                 scaleYbar.setRepeatCount(ValueAnimator.INFINITE);
-
                 mAnimators.add(scaleYbar);
             }
 
-            playingSet = new AnimatorSet();
-            playingSet.playTogether(mAnimators);
-            playingSet.setDuration(duration);
-            playingSet.setInterpolator(new LinearInterpolator());
-            playingSet.start();
+            mPlayingSet = new AnimatorSet();
+            mPlayingSet.playTogether(mAnimators);
+            mPlayingSet.setDuration(mAnimationDuration);
+            mPlayingSet.setInterpolator(new LinearInterpolator());
+            mPlayingSet.start();
 
         } else if (Build.VERSION.SDK_INT < 19) {
-            if (!playingSet.isStarted()) {
-                playingSet.start();
+            if (!mPlayingSet.isStarted()) {
+                mPlayingSet.start();
             }
         } else {
-            if (playingSet.isPaused()) {
-                playingSet.resume();
+            if (mPlayingSet.isPaused()) {
+                mPlayingSet.resume();
             }
         }
 
@@ -148,52 +160,67 @@ public class EqualizerView extends LinearLayout {
 
     public void stopBars() {
         isAnimating = false;
-        if (playingSet != null && playingSet.isRunning() && playingSet.isStarted()) {
+
+        if (mPlayingSet != null && mPlayingSet.isRunning() && mPlayingSet.isStarted()) {
             if (Build.VERSION.SDK_INT < 19) {
-                playingSet.end();
+                mPlayingSet.end();
             } else {
-                playingSet.pause();
+                mPlayingSet.pause();
             }
         }
 
-        if (stopSet == null) {
-            // Animate stopping bars
-
+        if (mStopSet == null) {
             mAnimators.clear();
 
-            for (int i = 0; i < barcount; i++) {
+            for (int i = 0; i < mBarCount; i++) {
                 mAnimators.add(ObjectAnimator.ofFloat(mBars.get(i), "scaleY", 0.1f));
             }
 
-
-            stopSet = new AnimatorSet();
-            stopSet.playTogether(mAnimators);
-            stopSet.setDuration(200);
-            stopSet.start();
-        } else if (!stopSet.isStarted()) {
-            stopSet.start();
+            mStopSet = new AnimatorSet();
+            mStopSet.playTogether(mAnimators);
+            mStopSet.setDuration(200);
+            mStopSet.start();
+        } else if (!mStopSet.isStarted()) {
+            mStopSet.start();
         }
     }
 
 
     public void setBarColor(String color) {
-        foregroundColor = Color.parseColor(color);
-        initViews();
+        mForegroundColor = Color.parseColor(color);
+        resetView();
+        initView();
     }
 
 
     public void setBarColor(int color) {
-        foregroundColor = color;
-        initViews();
+        mForegroundColor = color;
+        resetView();
+        initView();
     }
+
+
+    public void setBarCount(int count) {
+        mBarCount = count;
+        resetView();
+        initView();
+    }
+
+
+    public void setAnimationDuration(int duration) {
+        this.mAnimationDuration = duration;
+        resetView();
+        initView();
+    }
+
+    public void setObjectAnimationValueCount(int count) {
+        this.mAnimatorValueCount = count;
+        resetView();
+        initView();
+    }
+
 
     public Boolean isAnimating() {
         return isAnimating;
-    }
-
-    public void setBarCount(int count)
-    {
-        barcount = count;
-        initViews();
     }
 }
