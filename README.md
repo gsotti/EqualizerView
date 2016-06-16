@@ -23,7 +23,9 @@ How to use it
          app:barColor="@color/colorAccent"
          app:barCount="40"
          app:barAnimationDuration="2000"
-         app:animationValueCount="40"/>
+         app:barWidth="5dp"
+         app:marginLeft="1dp"
+         app:marginRight="1dp"/>
 ````
 
 ### Attributes
@@ -32,7 +34,8 @@ There is some custom attributes you can adjust from the xml:
  - barColor : the equalizer bars color (default is black)
  - barAnimationDuration : (millisecs) the animation follows a pattern and the number of loops is infinite. To set the duration of each loop, use this attribute.
  - barCount :  number of the bars
- - animationValueCount : number of values which are used for animation
+ - barWidth : bar width
+ - marginLeft/Right : bar margin
  
 ## Activity
 

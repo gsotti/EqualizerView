@@ -3,8 +3,13 @@
 
     <declare-styleable name="EqualizerView">
         <attr name="barColor" format="color" />
-        <attr name="barAnimationDuration" format="integer" />
         <attr name="barCount" format="integer" />
+        <attr name="barWidth" format="dimension" />
+
+        <attr name="marginLeft" format="dimension" />
+        <attr name="marginRight" format="dimension" />
+
+        <attr name="animationDuration" format="integer" />
         <attr name="animationValueCount" format="integer" />
     </declare-styleable>
 

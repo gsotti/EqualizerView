@@ -1,17 +1,22 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
 
     <eu.gsottbauer.equalizerview.EqualizerView
         android:id="@+id/equalizer"
-        android:layout_width="match_parent"
+        android:layout_width="wrap_content"
         android:layout_height="50dp"
-        android:layout_above="@+id/play_button"
+        android:layout_alignParentTop="true"
+        android:layout_centerHorizontal="true"
         android:layout_margin="30dp"
-        app:barColor="@color/colorAccent" />
+        app:barColor="@color/colorAccent"
+        app:barWidth="2dp"
+        tools:layout_width="50dp"
+        tools:background="@color/colorAccent"/>
 
     <!--<eu.gsottbauer.equalizerview.EqualizerView
         android:id="@+id/equalizer"
@@ -29,29 +34,27 @@
         android:id="@+id/play_button"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_centerHorizontal="true"
-        android:layout_centerVertical="true"
         android:onClick="playPause"
-        android:text="@string/start" />
+        android:text="@string/start"
+        android:layout_below="@+id/equalizer"
+        android:layout_centerHorizontal="true" />
 
     <SeekBar
-        android:id="@+id/barsSeekBar"
-        android:layout_width="wrap_content"
+        android:id="@+id/bar_count_seekbar"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_alignEnd="@+id/equalizer"
-        android:layout_alignLeft="@+id/equalizer"
-        android:layout_alignRight="@+id/equalizer"
-        android:layout_alignStart="@+id/equalizer"
         android:layout_below="@+id/textView"
-        android:max="100"
+        android:layout_marginLeft="30dp"
+        android:layout_marginRight="30dp"
+        android:max="200"
         android:progress="40" />
 
     <TextView
         android:id="@+id/textView"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignLeft="@+id/barsSeekBar"
-        android:layout_alignStart="@+id/barsSeekBar"
+        android:layout_alignLeft="@+id/bar_count_seekbar"
+        android:layout_alignStart="@+id/bar_count_seekbar"
         android:layout_below="@+id/play_button"
         android:layout_marginTop="20dp"
         android:text="Bar Count: "
@@ -69,63 +72,28 @@
         android:textAppearance="?android:attr/textAppearanceSmall" />
 
 
-    <SeekBar
-        android:id="@+id/valuesSeekBar"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignEnd="@+id/barsSeekBar"
-        android:layout_alignLeft="@+id/textView1"
-        android:layout_alignRight="@+id/barsSeekBar"
-        android:layout_alignStart="@+id/textView1"
-        android:layout_below="@+id/textView1"
-        android:max="100"
-        android:progress="20" />
-
-    <TextView
-        android:id="@+id/textView1"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignLeft="@+id/barsSeekBar"
-
-        android:layout_alignStart="@+id/barsSeekBar"
-        android:layout_below="@+id/barsSeekBar"
-        android:layout_marginTop="20dp"
-        android:text="Value Count: "
-        android:textAppearance="?android:attr/textAppearanceSmall" />
-
-    <TextView
-        android:id="@+id/values_count"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignTop="@+id/textView1"
-        android:layout_marginLeft="5dp"
-        android:layout_toEndOf="@+id/textView1"
-        android:layout_toRightOf="@+id/textView1"
-        android:text="1"
-        android:textAppearance="?android:attr/textAppearanceSmall" />
-
     <TextView
         android:id="@+id/textView2"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignLeft="@+id/valuesSeekBar"
-        android:layout_alignStart="@+id/valuesSeekBar"
-        android:layout_below="@+id/valuesSeekBar"
         android:layout_marginTop="20dp"
         android:text="Animation Duration: "
-        android:textAppearance="?android:attr/textAppearanceSmall" />
+        android:textAppearance="?android:attr/textAppearanceSmall"
+        android:layout_alignLeft="@+id/bar_count_seekbar"
+        android:layout_alignStart="@+id/bar_count_seekbar"
+        android:layout_below="@+id/bar_count_seekbar" />
 
     <SeekBar
-        android:id="@+id/animationDurationSeekBar"
+        android:id="@+id/animation_duration_seekbar"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignEnd="@+id/valuesSeekBar"
         android:layout_alignLeft="@+id/textView2"
-        android:layout_alignRight="@+id/valuesSeekBar"
         android:layout_alignStart="@+id/textView2"
         android:layout_below="@+id/textView2"
         android:max="100"
-        android:progress="15" />
+        android:progress="15"
+        android:layout_alignEnd="@+id/bar_count_seekbar"
+        android:layout_alignRight="@+id/bar_count_seekbar" />
 
 
     <TextView
@@ -138,6 +106,38 @@
         android:layout_toRightOf="@+id/textView2"
         android:text="2000"
         android:textAppearance="?android:attr/textAppearanceSmall" />
+
+    <TextView
+        android:id="@+id/textView3"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignLeft="@+id/animation_duration_seekbar"
+        android:layout_alignStart="@+id/animation_duration_seekbar"
+        android:layout_below="@+id/animation_duration_seekbar"
+        android:layout_marginTop="15dp"
+        android:text="Bar Width"
+        android:textAppearance="?android:attr/textAppearanceSmall" />
+
+    <TextView
+        android:id="@+id/bar_width_textview"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignTop="@+id/textView3"
+        android:layout_marginLeft="5dp"
+        android:layout_toEndOf="@+id/textView3"
+        android:layout_toRightOf="@+id/textView3"
+        android:text="1dp"
+        android:textAppearance="?android:attr/textAppearanceSmall" />
+
+    <SeekBar
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/bar_width_seekbar"
+        android:layout_below="@+id/textView3"
+        android:layout_alignLeft="@+id/textView3"
+        android:layout_alignStart="@+id/textView3"
+        android:layout_alignRight="@+id/animation_duration_seekbar"
+        android:layout_alignEnd="@+id/animation_duration_seekbar" />
 
 
 </RelativeLayout>

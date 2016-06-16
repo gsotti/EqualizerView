@@ -2,6 +2,7 @@ package eu.gsottbauer.equalizerviewsample;
 
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
+import android.util.TypedValue;
 import android.view.View;
 import android.widget.Button;
 import android.widget.SeekBar;
@@ -14,11 +15,11 @@ public class MainActivity extends AppCompatActivity {
     private EqualizerView mEqualizerView;
     private Button mPlayPauseButton;
     private SeekBar mBarCountSeekBar;
-    private SeekBar mAnimatorCountSeekBar;
     private TextView mBarCountTextView;
-    private TextView mValuesCountTextView;
     private SeekBar mAnimationDurationSeekBar;
     private TextView mAnimationDurationTextView;
+    private SeekBar mBarWidthSeekBar;
+    private TextView mBarWidthTextView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -28,21 +29,21 @@ public class MainActivity extends AppCompatActivity {
         mEqualizerView = (EqualizerView) findViewById(R.id.equalizer);
         mPlayPauseButton = (Button) findViewById(R.id.play_button);
         mBarCountTextView = (TextView) findViewById(R.id.bar_count);
-        mValuesCountTextView = (TextView) findViewById(R.id.values_count);
         mAnimationDurationTextView = (TextView) findViewById(R.id.animation_duration);
+        mBarWidthTextView = (TextView) findViewById(R.id.bar_width_textview);
 
-        mBarCountSeekBar = (SeekBar) findViewById(R.id.barsSeekBar);
-        mAnimatorCountSeekBar = (SeekBar) findViewById(R.id.valuesSeekBar);
-        mAnimationDurationSeekBar = (SeekBar) findViewById(R.id.animationDurationSeekBar);
+        mBarCountSeekBar = (SeekBar) findViewById(R.id.bar_count_seekbar);
+        mAnimationDurationSeekBar = (SeekBar) findViewById(R.id.animation_duration_seekbar);
+        mBarWidthSeekBar= (SeekBar) findViewById(R.id.bar_width_seekbar);
 
         mPlayPauseButton.setOnClickListener(mPlayButtonOnClickListener);
         mBarCountSeekBar.setOnSeekBarChangeListener(mBarCountSeekBarChangeListener);
-        mAnimatorCountSeekBar.setOnSeekBarChangeListener(mValuesCountSeekBarChangeListener);
         mAnimationDurationSeekBar.setOnSeekBarChangeListener(mAnimationDurationSeekBarChangeListener);
+        mBarWidthSeekBar.setOnSeekBarChangeListener(mBarWidthSeekBarChangeListener);
 
         mBarCountTextView.setText("40 Bars used");
-        mValuesCountTextView.setText("30 Animation Values used");
         mAnimationDurationTextView.setText("2000 ms");
+        mBarWidthTextView.setText("2 dp");
 
         /*
          * Set Bar Color
@@ -57,6 +58,14 @@ public class MainActivity extends AppCompatActivity {
          *
          * Set Animation Value Count
          *   mEqualizerView.setObjectAnimationValueCount(10);
+         *
+         * Set MarginLeft/Right
+         *   mEqualizerView.setMarginLeft(10);
+         *   mEqualizerView.setMarginRight(10);
+         *
+         * Set Bar Width
+         *   mEqualizerView.setBarWidth(5);
+         *
          */
     }
 
@@ -67,26 +76,6 @@ public class MainActivity extends AppCompatActivity {
             mPlayPauseButton.setText(getString(R.string.start));
             mEqualizerView.setBarCount(i + 1);
             mBarCountTextView.setText((i + 1) + " bars used");
-        }
-
-        @Override
-        public void onStartTrackingTouch(SeekBar seekBar) {
-
-        }
-
-        @Override
-        public void onStopTrackingTouch(SeekBar seekBar) {
-
-        }
-    };
-
-    private SeekBar.OnSeekBarChangeListener mValuesCountSeekBarChangeListener = new SeekBar.OnSeekBarChangeListener() {
-        @Override
-        public void onProgressChanged(SeekBar seekBar, int i, boolean b) {
-            mEqualizerView.stopBars();
-            mPlayPauseButton.setText(getString(R.string.start));
-            mEqualizerView.setObjectAnimationValueCount(i + 1);
-            mValuesCountTextView.setText((i + 1) + " values used");
         }
 
         @Override
@@ -119,6 +108,31 @@ public class MainActivity extends AppCompatActivity {
 
         }
     };
+
+
+    private SeekBar.OnSeekBarChangeListener mBarWidthSeekBarChangeListener = new SeekBar.OnSeekBarChangeListener() {
+        @Override
+        public void onProgressChanged(SeekBar seekBar, int i, boolean b) {
+            mEqualizerView.stopBars();
+            mPlayPauseButton.setText(getString(R.string.start));
+
+            int width = (i <= 0) ? -1 : (int)TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, i, getResources().getDisplayMetrics());
+
+            mEqualizerView.setBarWidth(width);
+            mBarWidthTextView.setText(((i)) + " dp");
+        }
+
+        @Override
+        public void onStartTrackingTouch(SeekBar seekBar) {
+
+        }
+
+        @Override
+        public void onStopTrackingTouch(SeekBar seekBar) {
+
+        }
+    };
+
 
 
 

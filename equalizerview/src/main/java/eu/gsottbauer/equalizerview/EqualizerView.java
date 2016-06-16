@@ -9,6 +9,7 @@ import android.content.res.TypedArray;
 import android.graphics.Color;
 import android.os.Build;
 import android.util.AttributeSet;
+import android.view.Gravity;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.ViewTreeObserver;
@@ -26,10 +27,13 @@ import java.util.Random;
 public class EqualizerView extends LinearLayout {
 
 
-    public final static int DEFAULT_DURATION = 3000;
-    public final static int DEFAULT_BAR_COUNT = 30;
-    public final static int DEFAULT_ANIMATION_COUNT = 30;
-    public final static int DEFAULT_COLOR = Color.DKGRAY;
+    public static final int DEFAULT_DURATION = 3000;
+    public static final int DEFAULT_BAR_COUNT = 20;
+    public static final int DEFAULT_ANIMATION_COUNT = 30;
+    public static final int DEFAULT_COLOR = Color.DKGRAY;
+    public static final int DEFAULT_WIDTH = ViewGroup.LayoutParams.MATCH_PARENT;
+    public static final int DEFAULT_MARGIN_LEFT = 1;
+    public static final int DEFAULT_MARGIN_RIGHT = 1;
 
     ArrayList<View> mBars = new ArrayList<>();
     ArrayList<Animator> mAnimators = new ArrayList<>();
@@ -41,7 +45,9 @@ public class EqualizerView extends LinearLayout {
     int mForegroundColor = DEFAULT_COLOR;
     int mAnimationDuration = DEFAULT_DURATION;
     int mBarCount = DEFAULT_BAR_COUNT;
-    int mAnimatorValueCount = DEFAULT_ANIMATION_COUNT;
+    int mBarWidth = DEFAULT_WIDTH;
+    int mMarginLeft = DEFAULT_MARGIN_LEFT;
+    int mMarginRight = DEFAULT_MARGIN_RIGHT;
 
     public EqualizerView(Context context) {
         super(context);
@@ -50,26 +56,28 @@ public class EqualizerView extends LinearLayout {
 
     public EqualizerView(Context context, AttributeSet attrs) {
         super(context, attrs);
-        setAttrs(context, attrs);
+        getAttrs(context, attrs);
         initView();
     }
 
     public EqualizerView(Context context, AttributeSet attrs, int defStyle) {
         super(context, attrs, defStyle);
-        setAttrs(context, attrs);
+        getAttrs(context, attrs);
         initView();
     }
 
-    private void setAttrs(Context context, AttributeSet attrs) {
+    private void getAttrs(Context context, AttributeSet attrs) {
 
         TypedArray a = context.getTheme().obtainStyledAttributes(attrs, R.styleable.EqualizerView, 0, 0);
 
         try {
 
             mForegroundColor = a.getInt(R.styleable.EqualizerView_barColor, DEFAULT_COLOR);
-            mAnimationDuration = a.getInt(R.styleable.EqualizerView_barAnimationDuration, DEFAULT_DURATION);
+            mAnimationDuration = a.getInt(R.styleable.EqualizerView_animationDuration, DEFAULT_DURATION);
             mBarCount = a.getInt(R.styleable.EqualizerView_barCount, DEFAULT_BAR_COUNT);
-            mAnimatorValueCount = a.getInt(R.styleable.EqualizerView_animationValueCount, DEFAULT_ANIMATION_COUNT);
+            mBarWidth = (int)a.getDimension(R.styleable.EqualizerView_barWidth,DEFAULT_WIDTH);
+            mMarginLeft = (int)a.getDimension(R.styleable.EqualizerView_marginLeft,DEFAULT_MARGIN_LEFT);
+            mMarginRight = (int)a.getDimension(R.styleable.EqualizerView_marginRight,DEFAULT_MARGIN_RIGHT);
 
         } finally {
             a.recycle();
@@ -79,14 +87,15 @@ public class EqualizerView extends LinearLayout {
     private void initView() {
 
         setOrientation(LinearLayout.HORIZONTAL);
+        setGravity(Gravity.CENTER_HORIZONTAL);
 
         for (int i = 0; i < mBarCount; i++) {
 
             View view = new View(getContext());
 
-            LinearLayout.LayoutParams params = new LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT);
-            params.weight = 1;
-            params.setMargins(1, 1, 1, 1);
+            LinearLayout.LayoutParams params = new LayoutParams(mBarWidth, ViewGroup.LayoutParams.MATCH_PARENT);
+            params.weight = (mBarWidth <= -1) ? 1 : 0;
+            params.setMargins(mMarginLeft, 0, mMarginRight, 0);
             view.setLayoutParams(params);
 
             view.setBackgroundColor(mForegroundColor);
@@ -126,17 +135,18 @@ public class EqualizerView extends LinearLayout {
 
         if (mPlayingSet == null) {
 
-            for (int i = 0; i < mBarCount; i++) {
+            for (int i = 0; i < mBars.size(); i++) {
 
                 Random rand = new Random();
-                float[] values = new float[mAnimatorValueCount];
+                float[] values = new float[DEFAULT_ANIMATION_COUNT];
 
-                for (int j = 0; j < mAnimatorValueCount; j++) {
+                for (int j = 0; j < DEFAULT_ANIMATION_COUNT; j++) {
                     values[j] = rand.nextFloat();
                 }
 
                 ObjectAnimator scaleYbar = ObjectAnimator.ofFloat(mBars.get(i), "scaleY", values);
                 scaleYbar.setRepeatCount(ValueAnimator.INFINITE);
+                scaleYbar.setRepeatMode(ObjectAnimator.REVERSE);
                 mAnimators.add(scaleYbar);
             }
 
@@ -172,7 +182,7 @@ public class EqualizerView extends LinearLayout {
         if (mStopSet == null) {
             mAnimators.clear();
 
-            for (int i = 0; i < mBarCount; i++) {
+            for (int i = 0; i < mBars.size(); i++) {
                 mAnimators.add(ObjectAnimator.ofFloat(mBars.get(i), "scaleY", 0.1f));
             }
 
@@ -185,42 +195,87 @@ public class EqualizerView extends LinearLayout {
         }
     }
 
-
-    public void setBarColor(String color) {
-        mForegroundColor = Color.parseColor(color);
+    /**
+     * setBarColor
+     *
+     * @param mForegroundColor foreground color as hex string
+     */
+    public void setBarColor(String mForegroundColor) {
+        this.mForegroundColor = Color.parseColor(mForegroundColor);
         resetView();
         initView();
     }
 
-
-    public void setBarColor(int color) {
-        mForegroundColor = color;
+    /**
+     * setBarColor
+     *
+     * @param mForegroundColor foreground color as integer
+     */
+    public void setBarColor(int mForegroundColor) {
+        this.mForegroundColor = mForegroundColor;
         resetView();
         initView();
     }
 
-
-    public void setBarCount(int count) {
-        mBarCount = count;
+    /**
+     * setBarCount
+     *
+     * @param mBarCount bar count
+     */
+    public void setBarCount(int mBarCount) {
+        this.mBarCount = mBarCount;
         resetView();
         initView();
     }
 
-
-    public void setAnimationDuration(int duration) {
-        this.mAnimationDuration = duration;
+    /**
+     * setAnimationDuration
+     *
+     * @param mAnimationDuration duration in milliseconds
+     */
+    public void setAnimationDuration(int mAnimationDuration) {
+        this.mAnimationDuration = mAnimationDuration;
         resetView();
         initView();
     }
 
-    public void setObjectAnimationValueCount(int count) {
-        this.mAnimatorValueCount = count;
+    /**
+     * setBarWidth
+     *
+     * @param mBarWidth bar width in pixel
+     */
+    public void setBarWidth(int mBarWidth) {
+        this.mBarWidth = mBarWidth;
         resetView();
         initView();
     }
 
+    /**
+     * setMarginRight
+     *
+     * @param mMarginRight margin right in pixel
+     */
+    public void setMarginRight(int mMarginRight) {
+        this.mMarginRight = mMarginRight;
+        resetView();
+        initView();
+    }
+
+    /**
+     * setMarginLeft
+     *
+     * @param mMarginLeft margin left in pixel
+     */
+    public void setMarginLeft(int mMarginLeft) {
+        this.mMarginLeft = mMarginLeft;
+        resetView();
+        initView();
+    }
 
     public Boolean isAnimating() {
         return isAnimating;
     }
+
+
+
 }
