@@ -357,6 +357,11 @@ public class EqualizerView extends LinearLayout {
         initView();
     }
 
+
+    public void setRunInBatterySafeMode(boolean mRunInBatterySafeMode) {
+        this.mRunInBatterySafeMode = mRunInBatterySafeMode;
+    }
+
     public Boolean isAnimating() {
         return isAnimating;
     }
