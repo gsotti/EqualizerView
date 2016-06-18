@@ -15,8 +15,10 @@
         android:layout_margin="30dp"
         app:barColor="@color/colorAccent"
         app:barWidth="2dp"
+        app:runInBatterySaveMode="true"
         tools:layout_width="50dp"
-        tools:background="@color/colorAccent"/>
+        tools:background="@color/colorAccent"
+        />
 
     <!--<eu.gsottbauer.equalizerview.EqualizerView
         android:id="@+id/equalizer"

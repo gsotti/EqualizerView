@@ -25,7 +25,9 @@ How to use it
          app:barAnimationDuration="2000"
          app:barWidth="5dp"
          app:marginLeft="1dp"
-         app:marginRight="1dp"/>
+         app:marginRight="1dp"
+         app:runInBatterySaveMode="true|false"
+         />
 ````
 
 ### Attributes
@@ -36,6 +38,7 @@ There is some custom attributes you can adjust from the xml:
  - barCount :  number of the bars
  - barWidth : bar width
  - marginLeft/Right : bar margin
+ - runInBatterySaveMode:  play animation if battery saver is on
  
 ## Activity
 
