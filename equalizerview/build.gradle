@@ -23,3 +23,31 @@ dependencies {
     testCompile 'junit:junit:4.12'
     compile 'com.android.support:appcompat-v7:23.4.0'
 }
+
+
+ext {
+    bintrayRepo = 'maven'
+    bintrayName = 'equalizerview'
+
+    publishedGroupId = 'eu.gsottbauer'
+    libraryName = 'EqualizerView'
+    artifact = 'equalizerview'
+
+    libraryDescription = 'Simple Equalizer View'
+
+    siteUrl = 'https://github.com/gsotti/EqualizerView'
+    gitUrl = 'https://github.com/gsotti/EqualizerView.git'
+
+    libraryVersion = '0.3'
+
+    developerId = 'gsotti'
+    developerName = 'Stefan Gsottbauer'
+    developerEmail = 'stefan@gsottbauer.eu'
+
+    licenseName = 'The MIT License (MIT)'
+    licenseUrl = 'https://opensource.org/licenses/MIT'
+    allLicenses = ["MIT License"]
+}
+
+apply from: 'https://raw.githubusercontent.com/nuuneoi/JCenter/master/installv1.gradle'
+apply from: 'https://raw.githubusercontent.com/nuuneoi/JCenter/master/bintrayv1.gradle'
