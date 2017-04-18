@@ -11,6 +11,23 @@ from @claucookie
 How to use it
 ----------------------
 
+# Usage
+Step 1. Add the JitPack repository to your build file
+```groovy
+allprojects {
+        repositories {
+            ...
+            maven { url "https://jitpack.io" }
+        }
+    }
+```
+Step 2. Add the dependency
+```groovy
+dependencies {
+  compile 'com.github.gsotti:EqualizerView:v0.2'
+ }
+ ```
+
 ## Layout
 
 ````xml
