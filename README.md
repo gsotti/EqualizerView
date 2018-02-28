@@ -1,7 +1,7 @@
 Simple Equalizer Library for Android 
 ==================================
 
- This Android Library project is created to let you use a animated equalizer inside your music related apps. Origingal version
+ This Android Library project is created to let you use a animated equalizer inside your music related apps. Original version
 from @claucookie
 
 [![Android Arsenal](https://img.shields.io/badge/Android%20Arsenal-Simple%20Equalizer%20Library-brightgreen.svg?style=flat)](https://android-arsenal.com/details/1/3715)
