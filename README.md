@@ -16,26 +16,31 @@ Installation
 Step 1: Add the JitPack repository to `build.gradle` (Project)  
 ```groovy  
 allprojects {  
- repositories { maven { url "https://jitpack.io" } }}  
+  repositories {
+    maven { url "https://jitpack.io" }
+  }
+}  
 ```  
 Step 2: Add the dependency to `build.gradle` (Module)  
 ```groovy  
 dependencies {  
- implementation "com.github.gsotti:EqualizerView:v0.4"}  
+  implementation "com.github.gsotti:EqualizerView:v0.4"
+}  
  ```  
 Layout  
 --------  
 ````xml  
- <eu.gsottbauer.equalizerview.EqualizerView  android:id="@+id/equalizer"  
-  android:layout_width="match_parent"  
-  android:layout_height="50dp"  
-  app:marginLeft="1dp"    
-  app:marginRight="1dp"  
-  app:barColor="@color/colorAccent"  
-  app:barCount="40"  
-  app:barAnimationDuration="2000"  
-  app:barWidth="5dp"  
-  app:runInBatterySaveMode="true|false" />  
+<eu.gsottbauer.equalizerview.EqualizerView
+    android:id="@+id/equalizer"  
+    android:layout_width="match_parent"  
+    android:layout_height="50dp"  
+    app:marginLeft="1dp"    
+    app:marginRight="1dp"  
+    app:barColor="@color/colorAccent"  
+    app:barCount="40"  
+    app:barAnimationDuration="2000"  
+    app:barWidth="5dp"  
+    app:runInBatterySaveMode="true|false" />  
 ````  
   
 Attributes  
@@ -43,12 +48,12 @@ Attributes
 |Attribute|Description|Type|Default|  
 |--|--|--|--|  
 |barColor|The equalizer bars color|Color|Black|  
-|barAnimationDuration|The animation follows a pattern and the number of loops is infinite. To set the duration of each loop, use this attribute.|Integer (Miliseconds)|  
+|barAnimationDuration|The animation follows a pattern and the number of loops is infinite. To set the duration of each loop, use this attribute|Integer (Miliseconds)|  
 |barCount|Number of the bars|Integer|  
-|barWidth|Bar width|Dimension|  
+|barWidth|Width of the bars|Dimension|  
 |marginLeft|Margin left between each bar|Dimension|  
 |marginRight|Margin right between each bar|Dimension|  
-|runInBatterySaveMode|Play animation if even battery saver is on|boolean|  
+|runInBatterySaveMode|Play animation if even battery saver is on|Boolean|  
   
   
   
@@ -60,7 +65,6 @@ EqualizerView equalizer = findViewById(R.id.equalizer);
 equalizer.animateBars(); // To start the animation  
 equalizer.stopBars(); // To stop the animation  
 ````  
-And... That's it! So simple.  
   
 Contribution  
 --------  
@@ -68,8 +72,8 @@ Every idea, fork and suggestion is very welcome.
   
 Author  
 --------  
-Stefan Gsottbauer [@gsotti](https://github.com/gsotti)  
+Stefan Gsottbauer ([@gsotti](https://github.com/gsotti))
   
 License  
 --------  
-https://opensource.org/licenses/MIT
+[MIT](https://opensource.org/licenses/MIT)
